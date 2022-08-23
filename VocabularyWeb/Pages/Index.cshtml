@@ -1,0 +1,36 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <ul id="words-list"></ul>
+</div>
+
+@section Scripts{
+<script>
+let url = "https://localhost:7097/words";
+let wordslist = document.getElementById("words-list");
+
+fetch(url).then(response => response.json).then(data => showWords(data)).catch(ex => {
+    alert("Error Occured!");
+    console.log(ex);
+});
+
+function showWords(words) {
+    //Iterate through the list of words
+    words.forEach(word => {
+        let li = document.createElement("li");
+        let text = `${word.WordName}`;
+
+        //${word.Definition1} ${word.Definition2} ${word.Definition3}
+
+        //Append text to the list
+        li.appendChild(document.createTextNode(text));
+        wordslist.appendChild(li);
+    });
+}
+</script>
+}
