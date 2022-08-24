@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddControllers();
 //Dependency Injection
 builder.Services.AddDbContext<DictionaryDbContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("dictionarydb")));
 builder.Services.AddScoped<IWordService, WordService>();
@@ -18,16 +18,16 @@ builder.Services.AddScoped<ISynonymService, SynonymService>();
 //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //Enable CORS
-builder.Services.AddCors(opt =>
-{
-    opt.AddPolicy("Policy", builder =>
-    {
-        builder.WithOrigins("https://localhost:7079")
-            .AllowAnyHeader()
-            .AllowAnyMethod()
-            .AllowCredentials();
-    });
-});
+//builder.Services.AddCors(opt =>
+//{
+//    opt.AddPolicy("Policy", builder =>
+//    {
+//        builder.WithOrigins("https://localhost:7079")
+//            .AllowAnyHeader()
+//            .AllowAnyMethod()
+//            .AllowCredentials();
+//    });
+//});
 
 
 var app = builder.Build();
@@ -75,7 +75,7 @@ app.MapDelete("/words/{id}", (int id, [FromServices] IWordService service) =>
 
 app.UseHttpsRedirection();
 
-app.UseCors("Policy");
+//app.UseCors("Policy");
 
 app.MapControllers();
 
