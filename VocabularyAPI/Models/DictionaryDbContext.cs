@@ -11,5 +11,10 @@ namespace VocabularyAPI.Models
 
         public DbSet<Word> Words { get; set; }
         public DbSet<Synonym> Synonyms { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<Word>().Property(p => p.WordId).ValueGeneratedOnAdd();
+        }
     }
 }

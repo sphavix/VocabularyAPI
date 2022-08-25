@@ -1,8 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <h2>Add Word</h2>
 <div class="panel">
@@ -10,35 +6,35 @@
         Capture Your Word
     </div>
     <div class="panel panel-body">
-        
-<div class="form-group" style="display:none">
-    <input id="txtWordId" class="form-control" name="WordId" />
-</div>
 
-<div class="form-group">
-    <label for="WordName">Word</label>
-    <input id="txtWordName" class="form-control" name="WordName" />
-</div>
-<div class="form-group">
-    <label for="Definition1">Definition 1</label>
-    <input id="txtDefinition1" class="form-control" name="Definition1" />
-</div>
-<div class="form-group">
-    <label for="Definition2">Definition 2</label>
-    <input id="txtDefinition2" class="form-control" name="Definition2" />
-</div>
-<div class="form-group">
-    <label for="Definition3">Definition 3</label>
-    <input id="txtDefinition3" class="form-control" name="Definition3" />
-</div>
-<div class="form-group">
-    <label for="Sentence">Sentence</label>
-    <input id="txtSentence" class="form-control" name="Sentence" />
-</div>
-<br />
-<div class="text-center">
-    <button id="btnSubmit" class="btn btn-sm btn-success">Save</button>
-</div>
+        <div class="form-group" style="display:none">
+            <input id="txtWordId" class="form-control" name="WordId" />
+        </div>
+
+        <div class="form-group">
+            <label for="WordName">Word</label>
+            <input id="txtWordName" class="form-control" name="WordName" />
+        </div>
+        <div class="form-group">
+            <label for="Definition1">Definition 1</label>
+            <input id="txtDefinition1" class="form-control" name="Definition1" />
+        </div>
+        <div class="form-group">
+            <label for="Definition2">Definition 2</label>
+            <input id="txtDefinition2" class="form-control" name="Definition2" />
+        </div>
+        <div class="form-group">
+            <label for="Definition3">Definition 3</label>
+            <input id="txtDefinition3" class="form-control" name="Definition3" />
+        </div>
+        <div class="form-group">
+            <label for="Sentence">Sentence</label>
+            <input id="txtSentence" class="form-control" name="Sentence" />
+        </div>
+        <br />
+        <div class="text-center">
+            <button id="btnSubmit" class="btn btn-sm btn-success">Save</button>
+        </div>
 
     </div>
     <div class="panel panel-footer">
@@ -56,74 +52,86 @@
             <th>Sentence</th>
             <th></th>
         </tr>
+        @*@{
+            foreach (var item in ViewBag.Words)
+            {
+                <tr>
+                    <td>@item.WordId</td>
+                    <td>@item.WordName</td>
+                    <td>@item.Definition1</td>
+                    <td>@item.Definition2</td>
+                    <td>@item.Definition3</td>
+                    <td>@item.Sentence</td>
+                </tr>
+            }
+        }*@
     </thead>
     <tbody></tbody>
 </table>
-<script type="text/javascript">
-$(document).ready(function() {
-     
-});
+<script type="text/javascript">  
+    $(document).ready(function() {
+        function GetAllWords() {
+            $.getJSON("/Words/GetAllWords", function(words) {
+                $("#tblWords tbody tr").remove();
+                $.map(words, function(word) {
+                    $("#tblWords tbody tr").append("<tr>"
+                        + "<td>" + word.WordId + "</td>"
+                        + "<td>" + word.WordName + "</td>"
+                        + "<td>" + word.Definition1 + "</td>"
+                        + "<td>" + word.Definition2 + "</td>"
+                        + "<td>" + word.Definition3 + "</td>"
+                        + "<td>" + word.Sentence + "</td>"
+                        + "<td>" +
+                        "<button class='btn-success' onclick='Edit(" + word.WordId + ")' style='margin-right:5px;'>Edit</button>"
+                        + "<button class='btn-success' onclick='Delete(" + word.WordId + ")'>Delete</button>"
+                    );
+                });
+            });
+        }
 
-function GetAllWords(){
-    $.getJSON("/Words/GetAllWords", function(words) {
-        $("#tblWords tbody tr").remove();
-        $.map(words, function(word) {
-            $("#tblWords tbody tr").append("<tr>"
-                + "<td>" + word.WordId + "</td>"
-                + "<td>" + word.WordName + "</td>"
-                + "<td>" + word.Definition1 + "</td>"
-                + "<td>" + word.Definition2 + "</td>"
-                + "<td>" + word.Definition3 + "</td>"
-                + "<td>" + word.Sentence + "</td>"
-                + "<td>" +
-                "<button class='btn-success' onclick='Edit(" + word.WordId + ")' style='margin-right:5px;'>Edit</button>"
-                + "<button class='btn-success' onclick='Delete("+ word.WordId + ")'>Delete</button>"
-            );
-        });
-    });
-}
-
-function Edit(wordId) {
-    if(wordId > 0){
-         $.getJSON("/Words/GetWordById?wordId=" + wordId, function(word) {
-             $("#txtWordId").val(word.wordId);
-             $("#txtWordName").val(word.WordName);
-             $("#txtDefinition1").val(word.Definition1);
-             $("#txtDefinition2").val(word.Definition2);
-             $("#txtDefinition3").val(word.Definition3);
-             $("#txtSentence").val(word.Sentence);
-        });
-    }
-}
-
-function Delete(wordId) {
-    if(wordId > 0){
-        $.ajax({
-            url: '/Words/DeleteWord?wordId=' + wordId,
-            type: 'DELETE',
-            dataType: 'json',
-            success: function(data) {
-
-            },
-            error: function(err) {
-                console.log('Error Occured!');
+        function Edit(wordId) {
+            if (wordId > 0) {
+                $.getJSON("/Words/GetWordById?wordId=" + wordId, function(word) {
+                    $("#txtWordId").val(word.wordId);
+                    $("#txtWordName").val(word.WordName);
+                    $("#txtDefinition1").val(word.Definition1);
+                    $("#txtDefinition2").val(word.Definition2);
+                    $("#txtDefinition3").val(word.Definition3);
+                    $("#txtSentence").val(word.Sentence);
+                });
             }
+        }
+
+        function Delete(wordId) {
+            if (wordId > 0) {
+                $.ajax({
+                    url: '/Words/DeleteWord?wordId=' + wordId,
+                    type: 'DELETE',
+                    dataType: 'json',
+                    success: function(data) {
+
+                    },
+                    error: function(err) {
+                        console.log('Error Occured!');
+                    }
+                });
+            }
+        }
+
+        $("#btnSubmit").click(function() {
+            var _word = {
+                WordId: $("#txtWordId").val(),
+                WordName: $("#txtWordName").val(),
+                Definition1: $("#txtDefinition1").val(),
+                Definition2: $("#txtDefinition2").val(),
+                Definition3: $("#txtDefinition3").val(),
+                Sentence: $("#txtSentence").val(),
+            };
+
+            $.post("/Words/AddOrEditWord", _word).done(function(data) {
+                GetAllWords
+            });
         });
-    }
-}
 
-$("#btnSubmit").click(function() {
-    var _word = {
-        WordId: $("#txtWordId").val(),
-        WordName: $("#txtWordName").val(),
-        Definition1: $("#txtDefinition1").val(),
-        Definition2: $("#txtDefinition2").val(),
-        Definition3: $("#txtDefinition3").val(),
-        Sentence: $("#txtSentence").val(),
-    };
-
-    $.post("/Words/AddOrEditWord", _word).done(function(data) {
-        GetAllWords
     });
-});
 </script>

@@ -4,7 +4,7 @@
 
 namespace VocabularyAPI.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class IdentityModified : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,10 +15,10 @@ namespace VocabularyAPI.Migrations
                     SynonymId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SynonymName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Definition1 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Definition2 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Definition3 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Sentence = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    Definition1 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Definition2 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Definition3 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Sentence = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -32,10 +32,10 @@ namespace VocabularyAPI.Migrations
                     WordId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     WordName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Definition1 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Definition2 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Definition3 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Sentence = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true)
+                    Definition1 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Definition2 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Definition3 = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Sentence = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {

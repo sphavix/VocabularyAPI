@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.Text;
 using VocabularyAPI.Models;
 using VocabularyAPI.RepositoryPattern;
+using System.Net.Http;
 
 namespace VocabularyWeb.Controllers
 {
@@ -25,17 +26,22 @@ namespace VocabularyWeb.Controllers
 
         public IActionResult Index()
         {
+            IEnumerable<Word> wordlist;
+            var httpClient = new HttpClient(handler);
+            HttpResponseMessage response = httpClient.GetAsync("https://localhost:7097/words").Result;
+            wordlist = response.Content.ReadAsAsync<List<Word>>().Result;
+            ViewBag.Words = wordlist;
             return View();
         }
 
-        [HttpGet]
+
         public async Task<List<Word>> GetAllWords()
         {
             //var _words = _service.GetAllWords();
             _words = new List<Word>();
-            using(var httpClient = new HttpClient(handler))
+            using (var httpClient = new HttpClient(handler))
             {
-                using(var response = await httpClient.GetAsync("https://localhost:7097/words"))
+                using (var response = await httpClient.GetAsync("https://localhost:7097/words"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     _words = JsonConvert.DeserializeObject<List<Word>>(apiResponse);
@@ -43,6 +49,16 @@ namespace VocabularyWeb.Controllers
             }
             return _words;
         }
+
+        //public List<Word> GetAllWords()
+        //{
+        //    IEnumerable<Word> wordlist;
+        //    var httpClient = new HttpClient(handler);
+        //    HttpResponseMessage response = httpClient.GetAsync("https://localhost:7097/words").Result;
+        //    wordlist = response.Content.ReadAsAsync<List<Word>>().Result;
+        //    ViewBag.Words = wordlist;
+        //    return wordlist.ToList();
+        //}
 
         [HttpGet]
         public async Task<Word> GetWordById(int wordId)

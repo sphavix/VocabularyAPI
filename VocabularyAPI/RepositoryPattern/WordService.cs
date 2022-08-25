@@ -26,10 +26,10 @@ namespace VocabularyAPI.RepositoryPattern
             using(var transaction = _context.Database.BeginTransaction())
             {
                 //Allows explicit values to be inserted into the identity column of a table
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Words ON;");
+                //_context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Words ON;");
                 _context.Words.Add(word);
                 _context.SaveChanges();
-                _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Words OFF;");
+                //_context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Words OFF;");
                 transaction.Commit();
             }
         }
@@ -49,10 +49,10 @@ namespace VocabularyAPI.RepositoryPattern
                     model.Sentence = word.Sentence;
 
                     //Allows explicit values to be inserted into the identity column of a table
-                    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Words ON;");
+                    //_context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Words ON;");
                     _context.Words.Update(model);
                     _context.SaveChanges();
-                    _context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Words OFF;");
+                    //_context.Database.ExecuteSqlRaw("SET IDENTITY_INSERT dbo.Words OFF;");
                     transaction.Commit();
                 }
                 

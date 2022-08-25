@@ -11,8 +11,8 @@ using VocabularyAPI.Models;
 namespace VocabularyAPI.Migrations
 {
     [DbContext(typeof(DictionaryDbContext))]
-    [Migration("20220823125057_InitialDb")]
-    partial class InitialDb
+    [Migration("20220825080949_IdentityModified")]
+    partial class IdentityModified
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
