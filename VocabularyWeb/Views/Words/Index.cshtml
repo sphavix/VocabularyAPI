@@ -1,74 +1,42 @@
-﻿
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<h2>Add Word</h2>
-<div class="panel">
-    <div class="panel panel-header">
-        Capture Your Word
-    </div>
-    <div class="panel panel-body">
+﻿@model VocabularyWeb.Models.WordsViewModel
+<h3>Vocabulary</h3>
 
-        <div class="form-group" style="display:none">
-            <input id="txtWordId" class="form-control" name="WordId" />
-        </div>
-
-        <div class="form-group">
-            <label for="WordName">Word</label>
-            <input id="txtWordName" class="form-control" name="WordName" />
-        </div>
-        <div class="form-group">
-            <label for="Definition1">Definition 1</label>
-            <input id="txtDefinition1" class="form-control" name="Definition1" />
-        </div>
-        <div class="form-group">
-            <label for="Definition2">Definition 2</label>
-            <input id="txtDefinition2" class="form-control" name="Definition2" />
-        </div>
-        <div class="form-group">
-            <label for="Definition3">Definition 3</label>
-            <input id="txtDefinition3" class="form-control" name="Definition3" />
-        </div>
-        <div class="form-group">
-            <label for="Sentence">Sentence</label>
-            <input id="txtSentence" class="form-control" name="Sentence" />
-        </div>
-        <br />
-        <div class="text-center">
-            <button id="btnSubmit" class="btn btn-sm btn-success">Save</button>
-        </div>
-
-    </div>
-    <div class="panel panel-footer">
-        <button onclick="GetAllWords()" class="btn btn-primary">Reload Words</button>
-    </div>
-</div>
 <hr />
-<table id="tblWords" class="table table-responsive-xl table-striped table-bordered">
-    <thead>
-        <tr>
-            <th>Word</th>
-            <th>Definition 1</th>
-            <th>Definition 2</th>
-            <th>Definition 3</th>
-            <th>Sentence</th>
-            <th></th>
-        </tr>
-        @*@{
-            foreach (var item in ViewBag.Words)
-            {
-                <tr>
-                    <td>@item.WordId</td>
-                    <td>@item.WordName</td>
-                    <td>@item.Definition1</td>
-                    <td>@item.Definition2</td>
-                    <td>@item.Definition3</td>
-                    <td>@item.Sentence</td>
-                </tr>
-            }
-        }*@
-    </thead>
-    <tbody></tbody>
-</table>
-<script type="text/javascript">  
+<p>
+    <a href="@Url.Action("AddOrEdit", "Words")" class="btn btn-default"><i class="fa fa-plus"></i>Word</a>
+</p>
+@foreach(var item in ViewBag.Words)
+{
+    <div class="card card-border-info">
+        <div class="card-body">
+            <h5 class="card-title">@item.WordName</h5>
+        <blockquote class="blockquote mb-0">
+             <p>1. @item.Definition1</p>
+             <p>2. @item.Definition2</p>
+             <p>3. @item.Definition3</p>
+            <footer class="blockquote-footer">@item.Sentence
+                <a asp-controller="Words" asp-action="AddOrEdit">
+                    <i class="oi oi-pencil" position="right" aria-hidden="true">Edit</i>
+                </a>
+            </footer>
+        </blockquote>
+        </div>
+    </div>
+    <br />
+}
+
+@section scripts{
+<script>
+    $(function () {
+        var successmessage = '@TempData["SuccessMessage"]'
+        if (successmessage != '') {
+            alertify.success(successmessage);
+        }
+    });
+</script>
+}
+
+@*<script type="text/javascript">  
     $(document).ready(function() {
         function GetAllWords() {
             $.getJSON("/Words/GetAllWords", function(words) {
@@ -134,4 +102,4 @@
         });
 
     });
-</script>
+</script>*@

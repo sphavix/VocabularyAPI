@@ -4,6 +4,7 @@ using System.Text;
 using VocabularyAPI.Models;
 using VocabularyAPI.RepositoryPattern;
 using System.Net.Http;
+using VocabularyWeb.Models;
 
 namespace VocabularyWeb.Controllers
 {
@@ -26,12 +27,28 @@ namespace VocabularyWeb.Controllers
 
         public IActionResult Index()
         {
-            IEnumerable<Word> wordlist;
+            IEnumerable<WordsViewModel> wordlist;
             var httpClient = new HttpClient(handler);
             HttpResponseMessage response = httpClient.GetAsync("https://localhost:7097/words").Result;
-            wordlist = response.Content.ReadAsAsync<List<Word>>().Result;
+            wordlist = response.Content.ReadAsAsync<IEnumerable<WordsViewModel>>().Result;
             ViewBag.Words = wordlist;
             return View();
+        }
+
+        
+        public IActionResult AddOrEdit(int id = 0)
+        {
+            return View(new WordsViewModel());
+        }
+
+        [HttpPost]
+        public IActionResult AddOrEdit(WordsViewModel model)
+        {
+            var httpClient = new HttpClient(handler);
+            HttpResponseMessage response = httpClient.PostAsJsonAsync("https://localhost:7097/words", model).Result;
+            //wordlist = response.Content.ReadAsAsync<IEnumerable<WordsViewModel>>().Result;
+            TempData["SuccessMessage"] = "Word successfully added!";
+            return RedirectToAction("Index");
         }
 
 

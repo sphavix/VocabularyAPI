@@ -18,16 +18,13 @@ builder.Services.AddScoped<ISynonymService, SynonymService>();
 //builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 //Enable CORS
-//builder.Services.AddCors(opt =>
-//{
-//    opt.AddPolicy("Policy", builder =>
-//    {
-//        builder.WithOrigins("https://localhost:7079")
-//            .AllowAnyHeader()
-//            .AllowAnyMethod()
-//            .AllowCredentials();
-//    });
-//});
+builder.Services.AddCors(opt =>
+{
+    opt.AddPolicy("AllowOrigin", x =>
+    {
+        x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
+});
 
 
 var app = builder.Build();
@@ -38,6 +35,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+//Use CORS
+app.UseCors(opt => opt.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
 
 app.UseSwagger(x => x.SerializeAsV2 = true);
 
