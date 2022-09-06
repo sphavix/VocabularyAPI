@@ -3,11 +3,11 @@
 
 <hr />
 <p>
-    <a href="@Url.Action("AddOrEdit", "Words")" class="btn btn-default"><i class="fa fa-plus"></i>Word</a>
+    <a href="@Url.Action("AddOrEdit", "Words")" class="btn btn-default"><i class="fa fa-plus"></i> Word</a>
 </p>
 @foreach(var item in ViewBag.Words)
 {
-    <div class="card card-border-info">
+    <div class="card card-border-success">
         <div class="card-body">
             <h5 class="card-title">@item.WordName</h5>
         <blockquote class="blockquote mb-0">
@@ -15,25 +15,12 @@
              <p>2. @item.Definition2</p>
              <p>3. @item.Definition3</p>
             <footer class="blockquote-footer">@item.Sentence
-                <a asp-controller="Words" asp-action="AddOrEdit">
-                    <i class="oi oi-pencil" position="right" aria-hidden="true">Edit</i>
-                </a>
+                
             </footer>
         </blockquote>
         </div>
     </div>
     <br />
-}
-
-@section scripts{
-<script>
-    $(function () {
-        var successmessage = '@TempData["SuccessMessage"]'
-        if (successmessage != '') {
-            alertify.success(successmessage);
-        }
-    });
-</script>
 }
 
 @*<script type="text/javascript">  

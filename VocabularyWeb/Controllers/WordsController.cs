@@ -38,7 +38,16 @@ namespace VocabularyWeb.Controllers
         
         public IActionResult AddOrEdit(int id = 0)
         {
-            return View(new WordsViewModel());
+            var httpClient = new HttpClient(handler);
+            if (id == 0)
+            {
+                return View(new WordsViewModel());
+            }
+            else
+            {
+                HttpResponseMessage response = httpClient.GetAsync("https://localhost:7097/words/" + id.ToString()).Result;
+                return View(response.Content.ReadAsAsync<WordsViewModel>().Result);
+            }
         }
 
         [HttpPost]
@@ -46,8 +55,6 @@ namespace VocabularyWeb.Controllers
         {
             var httpClient = new HttpClient(handler);
             HttpResponseMessage response = httpClient.PostAsJsonAsync("https://localhost:7097/words", model).Result;
-            //wordlist = response.Content.ReadAsAsync<IEnumerable<WordsViewModel>>().Result;
-            TempData["SuccessMessage"] = "Word successfully added!";
             return RedirectToAction("Index");
         }
 

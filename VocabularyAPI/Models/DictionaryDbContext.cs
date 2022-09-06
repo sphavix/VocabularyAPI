@@ -11,6 +11,7 @@ namespace VocabularyAPI.Models
 
         public DbSet<Word> Words { get; set; }
         public DbSet<Synonym> Synonyms { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
